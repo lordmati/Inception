@@ -16,7 +16,15 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     sleep 5
 
     echo ">> Ejecutando SQL de inicialización..."
-    sed "s/replace_this/$DB_PASS/g" /init.sql > /tmp/init.sql
+    # Crear un script SQL temporal con todas las variables reemplazadas
+    cat > /tmp/init.sql <<EOF
+CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$DB_PASS';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
+FLUSH PRIVILEGES;
+EOF
+    
+    # Ejecutar el script con las variables ya reemplazadas
     mariadb -u root < /tmp/init.sql
 
     echo ">> Configurando contraseña de root..."
