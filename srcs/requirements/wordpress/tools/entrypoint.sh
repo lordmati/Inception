@@ -11,7 +11,7 @@ DB_PASS=$(cat /run/secrets/db_password)
 # Esperar que MariaDB esté listo
 echo ">> Esperando conexión con MariaDB..."
 for i in {1..30}; do
-    if mariadb -h mariadb -u"$DB_USER" -p"$DB_PASS" -e "SHOW DATABASES;" &> /dev/null; then
+    if mariadb -h mariadb -u "$DB_USER" -p "$DB_PASS" -e "SHOW DATABASES;" &> /dev/null; then
         echo ">> MariaDB está disponible."
         break
     fi
