@@ -35,7 +35,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     fi
 
     echo ">> Ejecutando script de inicialización..."
-    cat /tmp/init.sql
+
     mariadb -u root --socket=/tmp/mysql.sock < /tmp/init.sql
 
 

@@ -12,6 +12,10 @@ RUN rm -rf /var/lib/mysql/*
 COPY ./conf/init.sql /init.sql
 COPY ./tools/entrypoint.sh /entrypoint.sh
 
+# Cambiar el bind-address a 0.0.0.0 para aceptar conexiones externas
+RUN sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+
 # Hacer ejecutable el script
 RUN chmod +x /entrypoint.sh
 
