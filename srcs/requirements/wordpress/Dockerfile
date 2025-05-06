@@ -22,6 +22,10 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 COPY ./tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Cambiar php-fpm para que escuche en 0.0.0.0:9000 (TCP)
+RUN sed -i 's|^listen = .*|listen = 0.0.0.0:9000|' /etc/php/7.4/fpm/pool.d/www.conf
+
+
 EXPOSE 9000
 
 ENTRYPOINT ["/entrypoint.sh"]
