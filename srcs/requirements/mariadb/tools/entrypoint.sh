@@ -4,8 +4,8 @@ set -e
 
 echo ">> Entrando al entrypoint de MariaDB"
 
-DB_PASS=$(cat /run/secrets/db_password)
-ROOT_PASS=$(cat /run/secrets/db_root_password)
+DB_PASS=$MYSQL_PASSWORD
+ROOT_PASS=$MYSQL_ROOT_PASSWORD
 
 if [ ! -d /var/lib/mysql/mysql ]; then
     echo ">> Inicializando base de datos..."

@@ -6,7 +6,7 @@ echo ">> Entrando al entrypoint de WordPress..."
 
 DB_NAME=${MYSQL_DATABASE}
 DB_USER=${MYSQL_USER}
-DB_PASS=$(cat /run/secrets/db_password)
+DB_PASS=${MYSQL_PASSWORD}
 
 # Esperar que MariaDB esté listo
 echo ">> Esperando conexión con MariaDB..."
@@ -18,23 +18,6 @@ for i in {1..30}; do
     echo "   ➜ Intento $i fallido... esperando..."
     sleep 1
 done
-
-# Cargar variables de credentials.txt si existe
-if [ -f /run/secrets/credentials ]; then
-    echo ">> Cargando variables desde credentials.txt..."
-    source /run/secrets/credentials
-else
-    echo "❌ ERROR: No se encontró /run/secrets/credentials"
-    exit 1
-fi
-
-# Verificar estado de conexión
-echo "🧩 Verificando variables de conexión:"
-echo "   DB_NAME=$DB_NAME"
-echo "   DB_USER=$DB_USER"
-echo "   DB_HOST=mariadb"
-echo "   WP_ADMIN_USER=$WP_ADMIN_USER"
-echo "   WP_URL=$WP_URL"
 
 # Generar wp-config.php si no existe
 if [ ! -f /var/www/html/wp-config.php ]; then
@@ -65,19 +48,26 @@ if ! wp core is-installed --path="/var/www/html" --allow-root; then
         --url="$WP_URL" \
         --title="$WP_TITLE" \
         --admin_user="$WP_ADMIN_USER" \
-        --admin_password="$(cat /run/secrets/wp_admin_password)" \
+        --admin_password="$WP_ADMIN_PASSWORD" \
         --admin_email="$WP_ADMIN_EMAIL" \
         --path="/var/www/html" \
         --allow-root; then
         echo "❌ ERROR: Falló la instalación de WordPress"
         exit 1
     fi
-
+    echo $WP_ADMIN_USER
+    echo $(cat /run/secrets/wp_admin_password)
+    echo $WP_ADMIN_PASSWORD
     echo "✅ WordPress instalado correctamente."
 else
     echo "✅ WordPress ya estaba instalado."
 fi
 
 echo ">> Lanzando PHP-FPM..."
+echo ">> Corrigiendo permisos de WordPress..."
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
+mkdir -p /var/lib/php/sessions
+chown -R www-data:www-data /var/lib/php/sessions
 mkdir -p /run/php
 exec php-fpm7.4 -F
