@@ -12,6 +12,6 @@ RUN openssl req -x509 -nodes -days 365 \
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8443
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]

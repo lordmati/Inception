@@ -18,14 +18,17 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 
+# Copiar script de configuracion wordpress
+# COPY ./tools/config.sh /config.sh
+# RUN chmod +x /config.sh && sh config.sh
+
 # Copiar script de inicialización
-COPY ./tools/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY ./tools/rentrypoint.sh /rentrypoint.sh
+RUN chmod +x /rentrypoint.sh
 
 # Cambiar php-fpm para que escuche en 0.0.0.0:9000 (TCP)
 RUN sed -i 's|^listen = .*|listen = 0.0.0.0:9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
-
 EXPOSE 9000
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/rentrypoint.sh"]

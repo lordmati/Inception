@@ -8,6 +8,14 @@ DB_NAME=${MYSQL_DATABASE}
 DB_USER=${MYSQL_USER}
 DB_PASS=${MYSQL_PASSWORD}
 
+echo "ENTRY.SH"
+echo "Nombre base datos": ${DB_NAME}
+echo "USER: " ${DB_USER}
+echo "PASS: " ${DB_PASS}
+
+echo "WP-CONFIG"
+cat /var/www/html/wp-config.php
+
 # Esperar que MariaDB esté listo
 echo ">> Esperando conexión con MariaDB..."
 for i in {1..30}; do
@@ -19,26 +27,26 @@ for i in {1..30}; do
     sleep 1
 done
 
-# Generar wp-config.php si no existe
-if [ ! -f /var/www/html/wp-config.php ]; then
-    echo ">> Generando wp-config.php..."
+# # Generar wp-config.php si no existe
+# if [ ! -f /var/www/html/wp-config.php ]; then
+#     echo ">> Generando wp-config.php..."
 
-    cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+#     cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
-    sed -i "s/database_name_here/$DB_NAME/" /var/www/html/wp-config.php
-    sed -i "s/username_here/$DB_USER/" /var/www/html/wp-config.php
-    sed -i "s/password_here/$DB_PASS/" /var/www/html/wp-config.php
-    sed -i "s/localhost/mariadb/" /var/www/html/wp-config.php
+#     sed -i "s/database_name_here/$DB_NAME/" /var/www/html/wp-config.php
+#     sed -i "s/username_here/$DB_USER/" /var/www/html/wp-config.php
+#     sed -i "s/password_here/$DB_PASS/" /var/www/html/wp-config.php
+#     sed -i "s/localhost/mariadb/" /var/www/html/wp-config.php
 
-    # Reemplazar claves de seguridad por las nuevas
-    sed -i "/AUTH_KEY/d;/SECURE_AUTH_KEY/d;/LOGGED_IN_KEY/d;/NONCE_KEY/d;/AUTH_SALT/d;/SECURE_AUTH_SALT/d;/LOGGED_IN_SALT/d;/NONCE_SALT/d" /var/www/html/wp-config.php
-    KEYS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
-    echo "$KEYS" >> /var/www/html/wp-config.php
+#     # Reemplazar claves de seguridad por las nuevas
+#     sed -i "/AUTH_KEY/d;/SECURE_AUTH_KEY/d;/LOGGED_IN_KEY/d;/NONCE_KEY/d;/AUTH_SALT/d;/SECURE_AUTH_SALT/d;/LOGGED_IN_SALT/d;/NONCE_SALT/d" /var/www/html/wp-config.php
+#     KEYS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
+#     echo "$KEYS" >> /var/www/html/wp-config.php
 
-    echo ">> wp-config.php configurado correctamente."
-else
-    echo ">> wp-config.php ya existe. No se regenera."
-fi
+#     echo ">> wp-config.php configurado correctamente."
+# else
+#     echo ">> wp-config.php ya existe. No se regenera."
+# fi
 
 # Instalar WordPress si no está instalado
 if ! wp core is-installed --path="/var/www/html" --allow-root; then

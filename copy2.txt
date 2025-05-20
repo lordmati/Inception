@@ -1,0 +1,16 @@
+HTTP/1.1 302 Found
+Server: nginx/1.18.0
+Date: Mon, 19 May 2025 12:31:39 GMT
+Content-Type: text/html; charset=UTF-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Expires: Wed, 11 Jan 1984 05:00:00 GMT
+Cache-Control: no-cache, must-revalidate, max-age=0, no-store, private
+Set-Cookie: wordpress_test_cookie=WP%20Cookie%20check; path=/; secure; HttpOnly
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Set-Cookie: wordpress_sec_d5622135a176108522bb18bbba0cee25=myadmin%7C1747830699%7CN9ehZ4X4gzbaDRZvOlYkCab05CQTqsVZ4Sg7QvQs4Pl%7C2dd0785493aa46382311a2f2bbde7871fff8dba8c906972bd33fe6f72e49eabc; path=/wp-content/plugins; secure; HttpOnly
+Set-Cookie: wordpress_sec_d5622135a176108522bb18bbba0cee25=myadmin%7C1747830699%7CN9ehZ4X4gzbaDRZvOlYkCab05CQTqsVZ4Sg7QvQs4Pl%7C2dd0785493aa46382311a2f2bbde7871fff8dba8c906972bd33fe6f72e49eabc; path=/wp-admin; secure; HttpOnly
+Set-Cookie: wordpress_logged_in_d5622135a176108522bb18bbba0cee25=myadmin%7C1747830699%7CN9ehZ4X4gzbaDRZvOlYkCab05CQTqsVZ4Sg7QvQs4Pl%7C2ce0ef195cb31f432deb4567485b86c5fd25300770771b21b912648a40ea8172; path=/; secure; HttpOnly
+X-Redirect-By: WordPress
+Location: https://misaguir.42.fr/wp-admin/
