@@ -7,6 +7,8 @@ GID=$(shell id -g)
 all: up
 
 up:
+	mkdir -p /home/${USER}/data/wordpress
+	mkdir -p /home/${USER}/data/mariadb
 	$(COMPOSE) up --build -d
 
 down:
@@ -27,9 +29,9 @@ logs:
 	$(COMPOSE) logs -f
 
 clean:
-	$(COMPOSE) down --remove-orphans
+	$(COMPOSE) down -v --remove-orphans
 
 fclean: clean
-	$(COMPOSE) down -v
+	@if [ -d "/home/${USER}/data" ]; then sudo rm -rf /home/${USER}/data; fi
 
 .PHONY: all up down re stop start ps logs clean fclean
