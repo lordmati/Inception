@@ -3,8 +3,6 @@ set -e
 
 echo ">> Starting WordPress entrypoint..."
 
-# echo "A ver si está la chota.."
-# cat /var/www/html/wp-config.php
 
 # Database connection check
 echo ">> Waiting for MariaDB..."
